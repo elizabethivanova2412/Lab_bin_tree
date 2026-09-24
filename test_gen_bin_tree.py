@@ -1,4 +1,3 @@
-%%writefile test_gen_bin_tree.py
 """
 Тесты для функции gen_bin_tree (словарное представление дерева).
 Запуск в Colab: unittest.main(argv=[''], verbosity=2, exit=False)
