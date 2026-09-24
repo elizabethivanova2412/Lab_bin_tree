@@ -4,11 +4,15 @@
 Вариант: root = 6; height = 5
     left_leaf  = (root * 2) - 2
     right_leaf = root + 4
+
+Каждый узел представлен словарём вида {"значение": [левый, правый]}.
+Ключ словаря — строка (как в примере преподавателя).
+Лист — словарь {"значение": []}.
 """
 
 from typing import Callable, Dict, List, Union
 
-TreeNode = Dict[int, List[Union["TreeNode", list]]]
+TreeNode = Dict[str, List[Union["TreeNode", list]]]
 
 
 def left_branch(root: int) -> int:
@@ -51,12 +55,12 @@ def gen_bin_tree(
         raise ValueError("Высота дерева не может быть отрицательной")
 
     if height == 0:
-        return {root: []}
+        return {str(root): []}
 
     left_subtree = gen_bin_tree(height - 1, l_b(root), l_b, r_b)
     right_subtree = gen_bin_tree(height - 1, r_b(root), l_b, r_b)
 
-    return {root: [left_subtree, right_subtree]}
+    return {str(root): [left_subtree, right_subtree]}
 
 
 if __name__ == "__main__":
