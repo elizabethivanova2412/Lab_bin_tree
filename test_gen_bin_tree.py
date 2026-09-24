@@ -1,3 +1,4 @@
+%%writefile test_gen_bin_tree.py
 """
 Тесты для функции gen_bin_tree (словарное представление дерева).
 Запуск в Colab: unittest.main(argv=[''], verbosity=2, exit=False)
@@ -27,19 +28,19 @@ class TestGenBinTreeStructure(unittest.TestCase):
 
     def test_height_zero(self):
         """Высота 0 — только корень, без потомков."""
-        self.assertEqual(gen_bin_tree(0, 6), {6: []})
+        self.assertEqual(gen_bin_tree(0, 6), {"6": []})
 
     def test_height_one(self):
         """Высота 1 — корень и два листа."""
-        expected = {6: [{10: []}, {10: []}]}
+        expected = {"6": [{"10": []}, {"10": []}]}
         self.assertEqual(gen_bin_tree(1, 6), expected)
 
     def test_height_two(self):
         """Высота 2 — полное дерево из 7 узлов."""
         expected = {
-            6: [
-                {10: [{18: []}, {14: []}]},
-                {10: [{18: []}, {14: []}]},
+            "6": [
+                {"10": [{"18": []}, {"14": []}]},
+                {"10": [{"18": []}, {"14": []}]},
             ]
         }
         self.assertEqual(gen_bin_tree(2, 6), expected)
@@ -47,13 +48,13 @@ class TestGenBinTreeStructure(unittest.TestCase):
     def test_root_value_is_custom(self):
         """Корневое значение задаётся пользователем."""
         tree = gen_bin_tree(1, 100)
-        self.assertIn(100, tree)
-        self.assertEqual(list(tree.keys()), [100])
+        self.assertIn("100", tree)
+        self.assertEqual(list(tree.keys()), ["100"])
 
     def test_leaf_has_empty_list(self):
         """Лист — словарь, значение которого пустой список."""
         tree = gen_bin_tree(1, 6)
-        children = tree[6]
+        children = tree["6"]
         for leaf in children:
             value = next(iter(leaf))
             self.assertEqual(leaf[value], [])
@@ -64,7 +65,7 @@ class TestGenBinTreeDefaults(unittest.TestCase):
 
     def test_default_height_and_root(self):
         tree = gen_bin_tree()
-        self.assertIn(6, tree)
+        self.assertIn("6", tree)
 
     def test_default_height_number_of_nodes(self):
         tree = gen_bin_tree()
@@ -96,15 +97,15 @@ class TestGenBinTreeCustomBranches(unittest.TestCase):
         tree = gen_bin_tree(
             1, 5, l_b=lambda x: x + 1, r_b=lambda x: x ** 2
         )
-        self.assertEqual(tree, {5: [{6: []}, {25: []}]})
+        self.assertEqual(tree, {"5": [{"6": []}, {"25": []}]})
 
     def test_custom_left_only(self):
         tree = gen_bin_tree(1, 5, l_b=lambda x: x + 100)
-        self.assertEqual(tree, {5: [{105: []}, {9: []}]})
+        self.assertEqual(tree, {"5": [{"105": []}, {"9": []}]})
 
     def test_custom_right_only(self):
         tree = gen_bin_tree(1, 5, r_b=lambda x: x - 1)
-        self.assertEqual(tree, {5: [{8: []}, {4: []}]})
+        self.assertEqual(tree, {"5": [{"8": []}, {"4": []}]})
 
 
 class TestGenBinTreeErrors(unittest.TestCase):
@@ -124,19 +125,19 @@ class TestGenBinTreeVariant(unittest.TestCase):
 
     def test_left_formula_on_depth_one(self):
         tree = gen_bin_tree(1, 6)
-        left_subtree = tree[6][0]
-        self.assertIn(10, left_subtree)
+        left_subtree = tree["6"][0]
+        self.assertIn("10", left_subtree)
 
     def test_right_formula_on_depth_one(self):
         tree = gen_bin_tree(1, 6)
-        right_subtree = tree[6][1]
-        self.assertIn(10, right_subtree)
+        right_subtree = tree["6"][1]
+        self.assertIn("10", right_subtree)
 
     def test_second_level_values(self):
         tree = gen_bin_tree(2, 6)
-        left = tree[6][0]
-        self.assertIn(18, left[10][0])
-        self.assertIn(14, left[10][1])
+        left = tree["6"][0]
+        self.assertIn("18", left["10"][0])
+        self.assertIn("14", left["10"][1])
 
 
 if __name__ == "__main__":
